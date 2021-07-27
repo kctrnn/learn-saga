@@ -1,44 +1,55 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+# Student Management
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+A project where I learned how to use the Redux Saga in combination with TypeScript, Redux Toolkit
 
-### `npm start`
+### Built with
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- UI: `Material UI`
+- Routing: `react-router-dom`
+- Form: `react-hook-form`
+- Form validation: `yup`
+- HTTP client: `axios`
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Routings
 
-### `npm test`
+- /login: Login page
+- /admin: Master layout for admin page
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- /admin/dashboard: Dashboard
+- /admin/students: Search students
+- /admin/students/add: Add new student
+- /admin/students/:studentId: Update student info
 
-### `npm run build`
+## Features
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- auth
+- dashboard
+- student
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## How to use
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
-### `npm run eject`
+```bash
+# Clone this repository
+$ git clone https://github.com/kctrnn/learn-saga
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Install dependencies
+$ npm install
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Run the app
+$ npm start
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Acknowledgements
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- [cra-template-redux-typescript](https://github.com/reduxjs/cra-template-redux-typescript)
+- [Redux-Saga](https://redux-saga.js.org/)
+- [TypeScript](https://www.typescriptlang.org/)
 
-## Learn More
+## Contact
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- GitHub [@kctrnn](https://github.com/kctrnn)
+- Twitter [@kctrnn](https://twitter.com/kctrnn)

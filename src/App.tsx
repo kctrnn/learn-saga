@@ -1,6 +1,9 @@
 import cityApi from "api/cityApi";
-import { Counter } from "features/counter/Counter";
+import { NotFound, PrivateRoute } from "components/Common";
+import { AdminLayout } from "components/Layout";
+import LoginPage from "features/auth/pages/LoginPage";
 import React, { useEffect } from "react";
+import { Route, Switch } from "react-router-dom";
 
 function App() {
   useEffect(() => {
@@ -18,7 +21,19 @@ function App() {
 
   return (
     <div>
-      <Counter />
+      <Switch>
+        <Route path='/login'>
+          <LoginPage />
+        </Route>
+
+        <PrivateRoute path='/admin'>
+          <AdminLayout />
+        </PrivateRoute>
+
+        <Route>
+          <NotFound />
+        </Route>
+      </Switch>
     </div>
   );
 }
