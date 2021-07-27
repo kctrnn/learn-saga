@@ -42,7 +42,7 @@ const LoginForm = (props: LoginFormProps) => {
         InputProps={{
           startAdornment: (
             <InputAdornment position='start'>
-              <EmailIcon color='primary' />
+              <EmailIcon color='action' />
             </InputAdornment>
           ),
         }}
@@ -56,7 +56,7 @@ const LoginForm = (props: LoginFormProps) => {
         InputProps={{
           startAdornment: (
             <InputAdornment position='start'>
-              <LockIcon color='primary' />
+              <LockIcon color='action' />
             </InputAdornment>
           ),
         }}
