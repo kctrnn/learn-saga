@@ -2,6 +2,7 @@ import cityApi from "api/cityApi";
 import { NotFound, PrivateRoute } from "components/Common";
 import { AdminLayout } from "components/Layout";
 import LoginPage from "features/auth/pages/LoginPage";
+import { Counter } from "features/counter/Counter";
 import React, { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 

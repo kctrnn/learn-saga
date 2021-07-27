@@ -11,5 +11,5 @@ function* handleIncrementSaga(action: PayloadAction<number>) {
 }
 
 export default function* counterSaga() {
-  yield takeEvery(incrementSaga.toString(), handleIncrementSaga);
+  yield takeEvery(incrementSaga.type, handleIncrementSaga);
 }

@@ -6,6 +6,7 @@ import {
 } from "@material-ui/core";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
+import { LoginPayload } from "../authSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,13 +16,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export interface LoginFormProps {}
+export interface LoginFormProps {
+  onSubmit?: (formValues: LoginPayload) => void;
+}
 
 const LoginForm = (props: LoginFormProps) => {
   const classes = useStyles();
 
+  const handleSubmit = () => {
+    if (props.onSubmit) {
+      props.onSubmit({
+        email: "",
+        password: "",
+      });
+    }
+  };
+
   return (
-    <form className={classes.root}>
+    <form className={classes.root} onSubmit={handleSubmit}>
       <TextField
         variant='outlined'
         fullWidth
@@ -50,7 +62,13 @@ const LoginForm = (props: LoginFormProps) => {
         }}
       />
 
-      <Button variant='contained' color='primary' size='large' fullWidth>
+      <Button
+        variant='contained'
+        color='primary'
+        size='large'
+        type='submit'
+        fullWidth
+      >
         Sign In
       </Button>
     </form>

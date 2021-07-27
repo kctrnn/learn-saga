@@ -1,6 +1,8 @@
 import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
+import { useAppDispatch } from "app/hooks";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import { login, LoginPayload } from "../authSlice";
 import LoginForm from "../components/LoginForm";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,7 +26,9 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginPage() {
   const classes = useStyles();
+
   const history = useHistory();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const onLoggedIn = () => {
@@ -36,6 +40,11 @@ function LoginPage() {
 
     onLoggedIn();
   }, [history]);
+
+  const handleLoginFormSubmit = (formValues: LoginPayload) => {
+    const action = login(formValues);
+    dispatch(action);
+  };
 
   return (
     <div className={classes.root}>
@@ -50,7 +59,7 @@ function LoginPage() {
           </Typography>
         </Box>
 
-        <LoginForm />
+        <LoginForm onSubmit={handleLoginFormSubmit} />
       </Paper>
     </div>
   );
