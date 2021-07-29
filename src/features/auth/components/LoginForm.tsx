@@ -23,17 +23,8 @@ export interface LoginFormProps {
 const LoginForm = (props: LoginFormProps) => {
   const classes = useStyles();
 
-  const handleSubmit = () => {
-    if (props.onSubmit) {
-      props.onSubmit({
-        email: "",
-        password: "",
-      });
-    }
-  };
-
   return (
-    <form className={classes.root} onSubmit={handleSubmit}>
+    <form className={classes.root}>
       <TextField
         variant='outlined'
         fullWidth

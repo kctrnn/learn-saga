@@ -1,13 +1,35 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { fork, take } from "redux-saga/effects";
-import { login, LoginPayload, logout } from "./authSlice";
+import authApi from "api/authApi";
+import { User } from "models";
+import { call, delay, fork, put, take } from "redux-saga/effects";
+import {
+  login,
+  loginFailed,
+  LoginPayload,
+  loginSuccess,
+  logout,
+} from "./authSlice";
+
+export interface LoginResponse {
+  jwt: string;
+  user: User;
+}
 
 function* handleLogin(payload: LoginPayload) {
-  console.log("Handle login", payload);
+  try {
+    const { jwt, user }: LoginResponse = yield call(authApi.login, payload);
+
+    localStorage.setItem("access_token", jwt);
+    yield put(loginSuccess(user));
+  } catch (error) {
+    console.log("Failed to login", error);
+    yield put(loginFailed());
+  }
 }
 
 function* handleLogout() {
-  console.log("Handle logout");
+  yield delay(1000);
+  localStorage.removeItem("access_token");
 }
 
 function* authSaga() {
@@ -20,7 +42,7 @@ function* authSaga() {
     }
 
     yield take(logout.type);
-    yield fork(handleLogout);
+    yield call(handleLogout);
   }
 }
 
