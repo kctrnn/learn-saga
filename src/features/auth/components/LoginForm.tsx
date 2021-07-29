@@ -1,11 +1,7 @@
-import {
-  Button,
-  InputAdornment,
-  makeStyles,
-  TextField,
-} from "@material-ui/core";
-import EmailIcon from "@material-ui/icons/Email";
-import LockIcon from "@material-ui/icons/Lock";
+import { Button, makeStyles } from "@material-ui/core";
+import { useAppSelector } from "app/hooks";
+import { InputField } from "components/FormFields";
+import { useForm } from "react-hook-form";
 import { LoginPayload } from "../authSlice";
 
 const useStyles = makeStyles((theme) => ({
@@ -20,37 +16,40 @@ export interface LoginFormProps {
   onSubmit?: (formValues: LoginPayload) => void;
 }
 
-const LoginForm = (props: LoginFormProps) => {
+const LoginForm = ({ onSubmit }: LoginFormProps) => {
   const classes = useStyles();
 
+  const isLogging = useAppSelector((state) => state.auth.logging);
+
+  const { control, handleSubmit } = useForm<LoginPayload>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const handleFormSubmit = (formValues: LoginPayload) => {
+    if (onSubmit) {
+      onSubmit(formValues);
+    }
+  };
+
   return (
-    <form className={classes.root}>
-      <TextField
-        variant='outlined'
-        fullWidth
-        placeholder='Enter your email'
+    <form className={classes.root} onSubmit={handleSubmit(handleFormSubmit)}>
+      <InputField
+        control={control}
+        name='email'
         type='email'
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position='start'>
-              <EmailIcon color='action' />
-            </InputAdornment>
-          ),
-        }}
+        label='Email'
+        placeholder='Enter your email'
       />
 
-      <TextField
-        variant='outlined'
-        fullWidth
-        placeholder='Enter your password'
+      <InputField
+        control={control}
+        name='password'
         type='password'
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position='start'>
-              <LockIcon color='action' />
-            </InputAdornment>
-          ),
-        }}
+        label='Password'
+        placeholder='Enter your password'
       />
 
       <Button
@@ -59,6 +58,7 @@ const LoginForm = (props: LoginFormProps) => {
         size='large'
         type='submit'
         fullWidth
+        disabled={isLogging}
       >
         Sign In
       </Button>

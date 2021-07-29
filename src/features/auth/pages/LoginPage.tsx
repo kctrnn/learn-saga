@@ -1,5 +1,6 @@
 import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
-import { LoginPayload } from "../authSlice";
+import { useAppDispatch } from "app/hooks";
+import { login, LoginPayload } from "../authSlice";
 import LoginForm from "../components/LoginForm";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,9 +24,11 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginPage() {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
 
   const handleLoginFormSubmit = (formValues: LoginPayload) => {
-    console.log(formValues);
+    const action = login(formValues);
+    dispatch(action);
   };
 
   return (
@@ -33,7 +36,7 @@ function LoginPage() {
       <Paper className={classes.paper}>
         <Box textAlign='center' mb={4}>
           <Typography component='h1' variant='h5' color='primary' gutterBottom>
-            Welcome Back
+            🏫 Student Management
           </Typography>
 
           <Typography color='textSecondary'>
