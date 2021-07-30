@@ -1,5 +1,8 @@
 import { Box, makeStyles } from "@material-ui/core";
 import { Header, Sidebar } from "components/Common";
+import Dashboard from "features/dashboard";
+import Student from "features/student";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const AdminLayout = () => {
   const classes = useStyles();
+  const match = useRouteMatch();
 
   return (
     <Box className={classes.root}>
@@ -41,7 +45,17 @@ export const AdminLayout = () => {
         <Sidebar />
       </Box>
 
-      <Box className={classes.main}>MAIN</Box>
+      <Box className={classes.main}>
+        <Switch>
+          <Route path={`${match.path}/students`}>
+            <Student />
+          </Route>
+
+          <Route path={`${match.path}/dashboard`}>
+            <Dashboard />
+          </Route>
+        </Switch>
+      </Box>
     </Box>
   );
 };
