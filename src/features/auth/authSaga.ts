@@ -1,5 +1,6 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import authApi from "api/authApi";
+import { push } from "connected-react-router";
 import { User } from "models";
 import { call, delay, fork, put, take } from "redux-saga/effects";
 import {
@@ -21,6 +22,9 @@ function* handleLogin(payload: LoginPayload) {
 
     localStorage.setItem("access_token", jwt);
     yield put(loginSuccess(user));
+
+    // redirect to admin page
+    yield put(push("/admin"));
   } catch (error) {
     console.log("Failed to login", error);
     yield put(loginFailed());
@@ -30,6 +34,9 @@ function* handleLogin(payload: LoginPayload) {
 function* handleLogout() {
   yield delay(1000);
   localStorage.removeItem("access_token");
+
+  // redirect to login page
+  yield put(push("/login"));
 }
 
 function* authSaga() {

@@ -1,19 +1,20 @@
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { ConnectedRouter } from "connected-react-router";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
+import { history } from "utils";
 import App from "./App";
 import { store } from "./app/store";
 import "./index.css";
-import CssBaseline from "@material-ui/core/CssBaseline";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Router>
+      <ConnectedRouter history={history}>
         <CssBaseline />
         <App />
-      </Router>
+      </ConnectedRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
