@@ -1,4 +1,4 @@
-import { Button, makeStyles } from "@material-ui/core";
+import { Button, CircularProgress, makeStyles } from "@material-ui/core";
 import { useAppSelector } from "app/hooks";
 import { InputField } from "components/FormFields";
 import { useForm } from "react-hook-form";
@@ -60,6 +60,7 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
         fullWidth
         disabled={isLogging}
       >
+        {isLogging && <CircularProgress size={24} color='primary' />} &nbsp;
         Sign In
       </Button>
     </form>

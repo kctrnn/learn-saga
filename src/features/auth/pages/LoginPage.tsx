@@ -1,4 +1,5 @@
-import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
+import { Box, Chip, makeStyles, Paper, Typography } from "@material-ui/core";
+import FaceIcon from "@material-ui/icons/Face";
 import { useAppDispatch } from "app/hooks";
 import { login, LoginPayload } from "../authSlice";
 import LoginForm from "../components/LoginForm";
@@ -31,6 +32,13 @@ function LoginPage() {
     dispatch(action);
   };
 
+  const handleLoginAsClick = () => {
+    handleLoginFormSubmit({
+      email: "test@gmail.com",
+      password: "test123",
+    });
+  };
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -45,6 +53,22 @@ function LoginPage() {
         </Box>
 
         <LoginForm onSubmit={handleLoginFormSubmit} />
+
+        <Box textAlign='center'>
+          <Chip
+            icon={<FaceIcon />}
+            label='Login as Bruh'
+            onClick={handleLoginAsClick}
+            variant='outlined'
+          />{" "}
+          &nbsp;
+          <Chip
+            icon={<FaceIcon />}
+            label='Login as Teo'
+            onClick={handleLoginAsClick}
+            variant='outlined'
+          />
+        </Box>
       </Paper>
     </div>
   );
