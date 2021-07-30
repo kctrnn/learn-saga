@@ -1,10 +1,10 @@
-import { ListResponse, Student } from "models";
+import { ListParams, ListResponse, Student } from "models";
 import axiosClient from "./axiosClient";
 
 const studentApi = {
-  getAll(): Promise<ListResponse<Student>> {
+  getAll(params: Partial<ListParams>): Promise<ListResponse<Student>> {
     const url = "/students";
-    return axiosClient.get(url);
+    return axiosClient.get(url, { params });
   },
 
   get(id: string): Promise<Student> {
