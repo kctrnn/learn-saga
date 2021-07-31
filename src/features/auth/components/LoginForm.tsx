@@ -1,7 +1,9 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Button, CircularProgress, makeStyles } from "@material-ui/core";
 import { useAppSelector } from "app/hooks";
 import { InputField } from "components/FormFields";
 import { useForm } from "react-hook-form";
+import * as yup from "yup";
 import { LoginPayload } from "../authSlice";
 
 const useStyles = makeStyles((theme) => ({
@@ -12,20 +14,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const schema = yup.object().shape({
+  email: yup
+    .string()
+    .required("Please enter your email")
+    .email("Please enter a valid email address"),
+
+  password: yup.string().required("Please enter your password"),
+});
+
 export interface LoginFormProps {
   onSubmit?: (formValues: LoginPayload) => void;
+  initialValues?: LoginPayload;
 }
 
-const LoginForm = ({ onSubmit }: LoginFormProps) => {
+const LoginForm = ({ onSubmit, initialValues }: LoginFormProps) => {
   const classes = useStyles();
 
   const isLogging = useAppSelector((state) => state.auth.logging);
 
   const { control, handleSubmit } = useForm<LoginPayload>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues: initialValues,
+    resolver: yupResolver(schema),
   });
 
   const handleFormSubmit = (formValues: LoginPayload) => {
@@ -40,7 +50,6 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
         control={control}
         name='email'
         type='email'
-        label='Email'
         placeholder='Enter your email'
       />
 
@@ -48,7 +57,6 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
         control={control}
         name='password'
         type='password'
-        label='Password'
         placeholder='Enter your password'
       />
 

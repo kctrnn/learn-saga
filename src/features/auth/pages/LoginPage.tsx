@@ -1,6 +1,7 @@
 import { Box, Chip, makeStyles, Paper, Typography } from "@material-ui/core";
 import FaceIcon from "@material-ui/icons/Face";
 import { useAppDispatch } from "app/hooks";
+import { useHistory } from "react-router-dom";
 import { login, LoginPayload } from "../authSlice";
 import LoginForm from "../components/LoginForm";
 
@@ -27,6 +28,14 @@ function LoginPage() {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
+  const history = useHistory();
+
+  // redirect to admin page if is logged in
+  const isLoggedIn = Boolean(localStorage.getItem("access_token"));
+  if (isLoggedIn) {
+    history.push("/admin/dashboard");
+  }
+
   const handleLoginFormSubmit = (formValues: LoginPayload) => {
     const action = login(formValues);
     dispatch(action);
@@ -37,6 +46,11 @@ function LoginPage() {
       email: "test@gmail.com",
       password: "test123",
     });
+  };
+
+  const initialValues: LoginPayload = {
+    email: "",
+    password: "",
   };
 
   return (
@@ -52,7 +66,10 @@ function LoginPage() {
           </Typography>
         </Box>
 
-        <LoginForm onSubmit={handleLoginFormSubmit} />
+        <LoginForm
+          onSubmit={handleLoginFormSubmit}
+          initialValues={initialValues}
+        />
 
         <Box textAlign='center'>
           <Chip
