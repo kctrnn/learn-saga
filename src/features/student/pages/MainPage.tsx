@@ -5,10 +5,11 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
+import Pagination from "@material-ui/lab/Pagination";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { useEffect } from "react";
+import { ChangeEvent, useEffect } from "react";
 import StudentTable from "../components/StudentTable";
-import { fetchStudentList } from "../studentSlice";
+import { fetchStudentList, setFilter } from "../studentSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
   progress: {
     marginBottom: theme.spacing(1),
   },
+
+  pagination: {
+    display: "flex",
+    justifyContent: "center",
+  },
 }));
 
 function MainPage() {
@@ -34,11 +40,24 @@ function MainPage() {
 
   const studentList = useAppSelector((state) => state.student.list);
   const loading = useAppSelector((state) => state.student.loading);
+  const { _limit, _page, _totalRows } = useAppSelector(
+    (state) => state.student.pagination
+  );
+  const filter = useAppSelector((state) => state.student.filter);
 
   useEffect(() => {
-    const action = fetchStudentList({ _page: 1, _limit: 15 });
+    const action = fetchStudentList(filter);
     dispatch(action);
-  }, [dispatch]);
+  }, [dispatch, filter]);
+
+  const handlePageChange = (event: ChangeEvent<unknown>, page: number) => {
+    dispatch(
+      setFilter({
+        ...filter,
+        _page: page,
+      })
+    );
+  };
 
   return (
     <Box className={classes.root}>
@@ -55,6 +74,18 @@ function MainPage() {
       {loading && <LinearProgress />}
 
       {!loading && <StudentTable studentList={studentList} />}
+
+      <Box my={2} className={classes.pagination}>
+        <Pagination
+          count={Math.ceil(_totalRows / _limit)}
+          variant='outlined'
+          shape='rounded'
+          page={_page}
+          color='primary'
+          disabled={loading}
+          onChange={handlePageChange}
+        />
+      </Box>
     </Box>
   );
 }
