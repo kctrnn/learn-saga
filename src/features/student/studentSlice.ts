@@ -49,6 +49,8 @@ const studentSlice = createSlice({
     setFilter(state, action: PayloadAction<Partial<ListParams>>) {
       state.filter = action.payload;
     },
+
+    setFilterDebounce(state, action: PayloadAction<Partial<ListParams>>) {},
   },
 });
 
@@ -58,6 +60,7 @@ export const {
   fetchStudentListSuccess,
   fetchStudentListFailed,
   setFilter,
+  setFilterDebounce,
 } = studentSlice.actions;
 
 // Reducer

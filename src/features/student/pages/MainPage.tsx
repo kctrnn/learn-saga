@@ -8,9 +8,15 @@ import {
 import Pagination from "@material-ui/lab/Pagination";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { selectCityMap } from "features/city/citySlice";
+import { ListParams } from "models";
 import { ChangeEvent, useEffect } from "react";
+import StudentFilters from "../components/StudentFilters";
 import StudentTable from "../components/StudentTable";
-import { fetchStudentList, setFilter } from "../studentSlice";
+import {
+  fetchStudentList,
+  setFilter,
+  setFilterDebounce,
+} from "../studentSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,10 +29,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
 
     marginBottom: theme.spacing(4),
-  },
-
-  progress: {
-    marginBottom: theme.spacing(1),
   },
 
   pagination: {
@@ -61,6 +63,10 @@ function MainPage() {
     );
   };
 
+  const handleSearchChange = (newFilter: Partial<ListParams>) => {
+    dispatch(setFilterDebounce(newFilter));
+  };
+
   return (
     <Box className={classes.root}>
       <Box className={classes.titleBox}>
@@ -72,6 +78,8 @@ function MainPage() {
           Add new student
         </Button>
       </Box>
+
+      <StudentFilters filter={filter} onSearchChange={handleSearchChange} />
 
       {loading && <LinearProgress />}
 
