@@ -7,6 +7,7 @@ import {
 } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 import { useAppDispatch, useAppSelector } from "app/hooks";
+import { selectCityMap } from "features/city/citySlice";
 import { ChangeEvent, useEffect } from "react";
 import StudentTable from "../components/StudentTable";
 import { fetchStudentList, setFilter } from "../studentSlice";
@@ -44,6 +45,7 @@ function MainPage() {
     (state) => state.student.pagination
   );
   const filter = useAppSelector((state) => state.student.filter);
+  const cityMap = useAppSelector(selectCityMap);
 
   useEffect(() => {
     const action = fetchStudentList(filter);
@@ -73,7 +75,7 @@ function MainPage() {
 
       {loading && <LinearProgress />}
 
-      {!loading && <StudentTable studentList={studentList} />}
+      {!loading && <StudentTable studentList={studentList} cityMap={cityMap} />}
 
       <Box my={2} className={classes.pagination}>
         <Pagination
