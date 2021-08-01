@@ -28,6 +28,7 @@ const studentSlice = createSlice({
   name: "student",
   initialState,
   reducers: {
+    // dispatch(fetchStudentList(filter))
     fetchStudentList(state, action: PayloadAction<Partial<ListParams>>) {
       state.loading = true;
     },

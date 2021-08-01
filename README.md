@@ -25,8 +25,110 @@ A project where I learned how to use the Redux Saga in combination with TypeScri
 ## Features
 
 - auth
+
+`authSlice.ts`
+
+```ts
+export interface authState {
+  currentUser: Partial<User>;
+  logging: boolean;
+  isLoggedIn: boolean;
+}
+
+const initialState: authState = {
+  currentUser: {},
+  isLoggedIn: false,
+  logging: false,
+};
+
+export interface LoginPayload {
+  email: string;
+  password: string;
+}
+
+const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    login(state, action: PayloadAction<LoginPayload>) {
+      state.logging = true;
+    },
+
+    loginSuccess(state, action: PayloadAction<User>) {
+      state.logging = false;
+      state.isLoggedIn = true;
+      state.currentUser = action.payload;
+    },
+
+    loginFailed(state) {
+      state.logging = false;
+    },
+
+    logout(state) {
+      state.isLoggedIn = false;
+      state.currentUser = {};
+    },
+  },
+});
+```
+
 - dashboard
 - student
+
+`studentSlice.ts`
+
+```ts
+export interface studentState {
+  list: Student[];
+  pagination: PaginationResponse;
+  filter: Partial<ListParams>;
+  loading: boolean;
+}
+
+const initialState: studentState = {
+  list: [],
+  pagination: {
+    _limit: 15,
+    _page: 1,
+    _totalRows: 15,
+  },
+
+  filter: {
+    _page: 1,
+    _limit: 15,
+  },
+
+  loading: false,
+};
+
+const studentSlice = createSlice({
+  name: "student",
+  initialState,
+  reducers: {
+    // dispatch(fetchStudentList(filter))
+    fetchStudentList(state, action: PayloadAction<Partial<ListParams>>) {
+      state.loading = true;
+    },
+
+    fetchStudentListSuccess(
+      state,
+      action: PayloadAction<ListResponse<Student>>
+    ) {
+      state.loading = false;
+      state.list = action.payload.data;
+      state.pagination = action.payload.pagination;
+    },
+
+    fetchStudentListFailed(state) {
+      state.loading = false;
+    },
+
+    setFilter(state, action: PayloadAction<Partial<ListParams>>) {
+      state.filter = action.payload;
+    },
+  },
+});
+```
 
 ## How to use
 
