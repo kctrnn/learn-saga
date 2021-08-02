@@ -1,6 +1,12 @@
-import { Box, Grid, InputAdornment, TextField } from "@material-ui/core";
+import {
+  Box,
+  Grid,
+  InputAdornment,
+  MenuItem,
+  TextField,
+} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
-import { ListParams } from "models";
+import { City, ListParams } from "models";
 import { ChangeEvent } from "react";
 
 export interface StudentFiltersProps {
@@ -8,12 +14,14 @@ export interface StudentFiltersProps {
   onSearchChange?: (newFilter: Partial<ListParams>) => void;
 
   filter: Partial<ListParams>;
+  cityList: City[];
 }
 
 function StudentFilters({
   filter,
   onChange,
   onSearchChange,
+  cityList,
 }: StudentFiltersProps) {
   const handleSearchByNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newFilter = {
@@ -27,10 +35,22 @@ function StudentFilters({
     }
   };
 
+  const handleFilterByCityChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const newFilter = {
+      ...filter,
+      city: event.target.value || undefined,
+      _page: 1,
+    };
+
+    if (onChange) {
+      onChange(newFilter);
+    }
+  };
+
   return (
     <Box mb={3}>
       <Grid container spacing={3}>
-        <Grid item xs={12} md={6} lg={3}>
+        <Grid item xs={12} md={6}>
           <TextField
             id='searchByName'
             label='Search by name'
@@ -46,6 +66,29 @@ function StudentFilters({
             }}
             onChange={handleSearchByNameChange}
           />
+        </Grid>
+
+        <Grid item xs={12} md={6} lg={3}>
+          <TextField
+            id='filterByCity'
+            select
+            label='Filter by city'
+            value={filter.city || ""}
+            variant='outlined'
+            fullWidth
+            size='small'
+            onChange={handleFilterByCityChange}
+          >
+            <MenuItem value=''>
+              <em>All</em>
+            </MenuItem>
+
+            {cityList.map((city) => (
+              <MenuItem key={city.code} value={city.code}>
+                {city.name}
+              </MenuItem>
+            ))}
+          </TextField>
         </Grid>
       </Grid>
     </Box>

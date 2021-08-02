@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 import { useAppDispatch, useAppSelector } from "app/hooks";
-import { selectCityMap } from "features/city/citySlice";
+import { selectCityList, selectCityMap } from "features/city/citySlice";
 import { ListParams } from "models";
 import { ChangeEvent, useEffect } from "react";
 import StudentFilters from "../components/StudentFilters";
@@ -48,6 +48,7 @@ function MainPage() {
   );
   const filter = useAppSelector((state) => state.student.filter);
   const cityMap = useAppSelector(selectCityMap);
+  const cityList = useAppSelector(selectCityList);
 
   useEffect(() => {
     const action = fetchStudentList(filter);
@@ -67,6 +68,10 @@ function MainPage() {
     dispatch(setFilterDebounce(newFilter));
   };
 
+  const handleCityChange = (newFilter: Partial<ListParams>) => {
+    dispatch(setFilter(newFilter));
+  };
+
   return (
     <Box className={classes.root}>
       <Box className={classes.titleBox}>
@@ -79,7 +84,12 @@ function MainPage() {
         </Button>
       </Box>
 
-      <StudentFilters filter={filter} onSearchChange={handleSearchChange} />
+      <StudentFilters
+        filter={filter}
+        cityList={cityList}
+        onSearchChange={handleSearchChange}
+        onChange={handleCityChange}
+      />
 
       {loading && <LinearProgress />}
 
