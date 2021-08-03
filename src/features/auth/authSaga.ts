@@ -16,12 +16,34 @@ export interface LoginResponse {
   user: User;
 }
 
-function* handleLogin(payload: LoginPayload) {
-  try {
-    const { jwt, user }: LoginResponse = yield call(authApi.login, payload);
+// function* handleLogin(payload: LoginPayload) {
+//   try {
+//     const { jwt, user }: LoginResponse = yield call(authApi.login, payload);
 
-    localStorage.setItem("access_token", jwt);
-    yield put(loginSuccess(user));
+//     localStorage.setItem("access_token", jwt);
+//     yield put(loginSuccess(user));
+
+//     // redirect to admin page
+//     yield put(push("/admin/dashboard"));
+//   } catch (error) {
+//     console.log("Failed to login", error);
+//     yield put(loginFailed());
+//   }
+// }
+
+// Fake login
+function* handleFakeLogin(payload: LoginPayload) {
+  try {
+    yield delay(1000);
+
+    localStorage.setItem("access_token", "fake_token");
+    yield put(
+      loginSuccess({
+        id: "fakeId",
+        email: "fake@gmail.com",
+        name: "Fake Login",
+      })
+    );
 
     // redirect to admin page
     yield put(push("/admin/dashboard"));
@@ -45,7 +67,7 @@ function* authSaga() {
 
     if (!isLoggedIn) {
       const action: PayloadAction<LoginPayload> = yield take(login.type);
-      yield fork(handleLogin, action.payload);
+      yield fork(handleFakeLogin, action.payload);
     }
 
     yield take(logout.type);

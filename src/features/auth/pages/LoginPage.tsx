@@ -41,10 +41,11 @@ function LoginPage() {
     dispatch(action);
   };
 
-  const handleLoginAsClick = () => {
+  // Fake login
+  const handleFakeLoginClick = () => {
     handleLoginFormSubmit({
-      email: "test@gmail.com",
-      password: "test123",
+      email: "",
+      password: "",
     });
   };
 
@@ -75,14 +76,14 @@ function LoginPage() {
           <Chip
             icon={<FaceIcon />}
             label='Login as Bruh'
-            onClick={handleLoginAsClick}
+            onClick={handleFakeLoginClick}
             variant='outlined'
           />{" "}
           &nbsp;
           <Chip
             icon={<FaceIcon />}
             label='Login as Teo'
-            onClick={handleLoginAsClick}
+            onClick={handleFakeLoginClick}
             variant='outlined'
           />
         </Box>
