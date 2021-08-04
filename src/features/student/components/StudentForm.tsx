@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button, CircularProgress } from "@material-ui/core";
 import { useAppSelector } from "app/hooks";
 import {
@@ -8,6 +9,40 @@ import {
 import { selectCityOptions } from "features/city/citySlice";
 import { Student } from "models";
 import { useForm } from "react-hook-form";
+import * as yup from "yup";
+
+const schema = yup.object().shape({
+  name: yup
+    .string()
+    .required("Please enter your name")
+    .test("two-words", "Please enter at least two words", (value) => {
+      if (!value) return true;
+
+      return value.split(" ").length >= 2;
+    }),
+
+  gender: yup
+    .string()
+    .oneOf(["male", "female"], "Please select either male or female")
+    .required("Please select your gender"),
+
+  age: yup
+    .number()
+    .min(18, "Min is 18")
+    .max(60, "Max is 60")
+    .integer("Please enter an integer")
+    .typeError("Please enter a valid number")
+    .required(),
+
+  mark: yup
+    .number()
+    .min(0, "Min is 0")
+    .max(10, "Max is 10")
+    .typeError("Please enter a valid number")
+    .required(),
+
+  city: yup.string().required("Please select your city"),
+});
 
 export interface StudentFormProps {
   onSubmit?: (formValues: Student) => void;
@@ -21,6 +56,7 @@ function StudentForm({ onSubmit, initialValues }: StudentFormProps) {
     formState: { isSubmitting },
   } = useForm<Student>({
     defaultValues: initialValues,
+    resolver: yupResolver(schema),
   });
 
   const cityOptions = useAppSelector(selectCityOptions);
