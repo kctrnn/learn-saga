@@ -1,5 +1,5 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import authApi from "api/authApi";
+// import authApi from "api/authApi";
 import { push } from "connected-react-router";
 import { User } from "models";
 import { call, delay, fork, put, take } from "redux-saga/effects";

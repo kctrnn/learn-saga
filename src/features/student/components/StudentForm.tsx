@@ -25,8 +25,12 @@ function StudentForm({ onSubmit, initialValues }: StudentFormProps) {
 
   const cityOptions = useAppSelector(selectCityOptions);
 
-  const handleFormSubmit = (formValues: Student) => {
-    console.log(formValues);
+  const handleFormSubmit = async (formValues: Student) => {
+    try {
+      await onSubmit?.(formValues);
+    } catch (error) {
+      console.log("Failed to add/edit student");
+    }
   };
 
   return (
