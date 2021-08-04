@@ -1,5 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button, CircularProgress } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import { useAppSelector } from "app/hooks";
 import {
   InputField,
@@ -8,6 +9,7 @@ import {
 } from "components/FormFields";
 import { selectCityOptions } from "features/city/citySlice";
 import { Student } from "models";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
@@ -59,13 +61,15 @@ function StudentForm({ onSubmit, initialValues }: StudentFormProps) {
     resolver: yupResolver(schema),
   });
 
+  const [error, setError] = useState<string>("");
+
   const cityOptions = useAppSelector(selectCityOptions);
 
   const handleFormSubmit = async (formValues: Student) => {
     try {
       await onSubmit?.(formValues);
     } catch (error) {
-      console.log("Failed to add/edit student");
+      setError(error.message);
     }
   };
 
@@ -91,6 +95,8 @@ function StudentForm({ onSubmit, initialValues }: StudentFormProps) {
         options={cityOptions}
         label='City'
       />
+
+      {error && <Alert severity='error'>{error}</Alert>}
 
       <Box mt={2}>
         <Button

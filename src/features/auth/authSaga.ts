@@ -2,6 +2,7 @@ import { PayloadAction } from "@reduxjs/toolkit";
 // import authApi from "api/authApi";
 import { push } from "connected-react-router";
 import { User } from "models";
+import { toast } from "react-toastify";
 import { call, delay, fork, put, take } from "redux-saga/effects";
 import {
   login,
@@ -45,10 +46,13 @@ function* handleFakeLogin(payload: LoginPayload) {
       })
     );
 
+    // Show toast success
+    toast.success("🚀 Login successfully");
+
     // redirect to admin page
     yield put(push("/admin/dashboard"));
   } catch (error) {
-    console.log("Failed to login", error);
+    toast.error(error.message);
     yield put(loginFailed());
   }
 }
