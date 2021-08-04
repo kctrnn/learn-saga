@@ -4,15 +4,22 @@ import { Control, useController } from "react-hook-form";
 export interface InputFieldProps {
   name: string;
   control: Control<any>;
-  type: string;
 
+  type?: string;
   placeholder?: string;
   label?: string;
   size?: "small" | "medium";
 }
 
 export const InputField = (props: InputFieldProps) => {
-  const { name, control, placeholder, label, size, type = "text" } = props;
+  const {
+    name,
+    control,
+    placeholder,
+    label,
+    size = "small",
+    type = "text",
+  } = props;
 
   const {
     field,
@@ -25,15 +32,16 @@ export const InputField = (props: InputFieldProps) => {
   return (
     <TextField
       {...field}
-      label={label}
       variant='outlined'
       fullWidth
+      error={invalid}
+      helperText={error?.message}
+      label={label}
       size={size}
       placeholder={placeholder}
       type={type}
-      error={invalid}
-      helperText={error?.message}
       autoComplete='off'
+      margin='normal'
     />
   );
 };
