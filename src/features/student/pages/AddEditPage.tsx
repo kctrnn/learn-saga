@@ -1,5 +1,106 @@
+import { Box, Chip, makeStyles, Typography } from "@material-ui/core";
+import { ChevronLeft } from "@material-ui/icons";
+import studentApi from "api/studentApi";
+import { Student } from "models";
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import StudentForm from "../components/StudentForm";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    paddingTop: theme.spacing(1),
+  },
+
+  titleBox: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+
+  back: {
+    display: "flex",
+    alignItems: "center",
+    marginRight: theme.spacing(4),
+
+    textDecoration: "none",
+    color: theme.palette.primary.dark,
+  },
+
+  form: {
+    marginTop: theme.spacing(2),
+    maxWidth: "500px",
+  },
+
+  studentId: {
+    display: "flex",
+    alignItems: "center",
+    marginTop: theme.spacing(2),
+
+    "& > *": {
+      marginRight: theme.spacing(1),
+    },
+  },
+}));
+
 function AddEditPage() {
-  return <div>Add Edit Page</div>;
+  const classes = useStyles();
+  const { studentId } = useParams<{ studentId: string }>();
+  const isEdit = Boolean(studentId);
+  const [student, setStudent] = useState<Student>();
+
+  useEffect(() => {
+    if (!studentId) return;
+
+    (async () => {
+      try {
+        const response = await studentApi.get(studentId);
+        setStudent(response);
+      } catch (error) {
+        console.log("Failed to fetch student details", error);
+      }
+    })();
+  }, [studentId]);
+
+  const initialValues: Student = {
+    name: "",
+    age: "",
+    mark: "",
+    gender: "male",
+    city: "",
+    ...student,
+  } as Student;
+
+  return (
+    <Box className={classes.root}>
+      <Box className={classes.titleBox}>
+        <Typography variant='h5'>
+          {isEdit ? "Update student info" : "Add new student"}
+        </Typography>
+
+        <Typography
+          variant='subtitle2'
+          component={Link}
+          to='/admin/students'
+          className={classes.back}
+        >
+          <ChevronLeft /> Back to student list
+        </Typography>
+      </Box>
+
+      {student && (
+        <Box className={classes.studentId}>
+          <Chip label='Student ID' size='small' />
+          <Typography variant='body2'>{student.id}</Typography>
+        </Box>
+      )}
+
+      {(student || !isEdit) && (
+        <Box className={classes.form}>
+          <StudentForm initialValues={initialValues} />
+        </Box>
+      )}
+    </Box>
+  );
 }
 
 export default AddEditPage;

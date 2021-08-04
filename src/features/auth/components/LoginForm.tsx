@@ -8,8 +8,8 @@ import { LoginPayload } from "../authSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    "& > *": {
-      marginTop: theme.spacing(3),
+    "& > *:last-child": {
+      margin: theme.spacing(2, 0),
     },
   },
 }));
@@ -51,6 +51,7 @@ const LoginForm = ({ onSubmit, initialValues }: LoginFormProps) => {
         name='email'
         type='email'
         placeholder='Enter your email'
+        size='medium'
       />
 
       <InputField
@@ -58,6 +59,7 @@ const LoginForm = ({ onSubmit, initialValues }: LoginFormProps) => {
         name='password'
         type='password'
         placeholder='Enter your password'
+        size='medium'
       />
 
       <Button

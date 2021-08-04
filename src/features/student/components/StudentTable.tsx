@@ -8,7 +8,6 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { City, Student } from "models";
-import React from "react";
 import { capitalizeString, getMarkColor } from "utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,9 +22,16 @@ export interface StudentTableProps {
   cityMap: {
     [key: string]: City;
   };
+  onEdit?: (student: Student) => void;
+  onRemove?: (student: Student) => void;
 }
 
-function StudentTable({ studentList, cityMap }: StudentTableProps) {
+function StudentTable({
+  studentList,
+  cityMap,
+  onEdit,
+  onRemove,
+}: StudentTableProps) {
   const classes = useStyles();
 
   return (
@@ -62,6 +68,7 @@ function StudentTable({ studentList, cityMap }: StudentTableProps) {
                     size='small'
                     color='primary'
                     className={classes.editBtn}
+                    onClick={() => onEdit?.(student)}
                   >
                     Edit
                   </Button>

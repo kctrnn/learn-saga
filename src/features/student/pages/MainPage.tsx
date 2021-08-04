@@ -8,8 +8,9 @@ import {
 import Pagination from "@material-ui/lab/Pagination";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { selectCityList, selectCityMap } from "features/city/citySlice";
-import { ListParams } from "models";
+import { ListParams, Student } from "models";
 import { ChangeEvent, useEffect } from "react";
+import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import StudentFilters from "../components/StudentFilters";
 import StudentTable from "../components/StudentTable";
 import {
@@ -38,15 +39,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function MainPage() {
+  const match = useRouteMatch();
+  const history = useHistory();
   const dispatch = useAppDispatch();
   const classes = useStyles();
 
   const studentList = useAppSelector((state) => state.student.list);
   const loading = useAppSelector((state) => state.student.loading);
+  const filter = useAppSelector((state) => state.student.filter);
   const { _limit, _page, _totalRows } = useAppSelector(
     (state) => state.student.pagination
   );
-  const filter = useAppSelector((state) => state.student.filter);
+
   const cityMap = useAppSelector(selectCityMap);
   const cityList = useAppSelector(selectCityList);
 
@@ -72,6 +76,10 @@ function MainPage() {
     dispatch(setFilter(newFilter));
   };
 
+  const handleEditClick = (student: Student) => {
+    history.push(`${match.url}/${student.id}`);
+  };
+
   return (
     <Box className={classes.root}>
       <Box className={classes.titleBox}>
@@ -79,7 +87,12 @@ function MainPage() {
           Students
         </Typography>
 
-        <Button variant='contained' color='primary'>
+        <Button
+          variant='contained'
+          color='primary'
+          component={Link}
+          to={`${match.path}/add`}
+        >
           Add new student
         </Button>
       </Box>
@@ -93,7 +106,13 @@ function MainPage() {
 
       {loading && <LinearProgress />}
 
-      {!loading && <StudentTable studentList={studentList} cityMap={cityMap} />}
+      {!loading && (
+        <StudentTable
+          studentList={studentList}
+          cityMap={cityMap}
+          onEdit={handleEditClick}
+        />
+      )}
 
       <Box my={2} className={classes.pagination}>
         <Pagination
