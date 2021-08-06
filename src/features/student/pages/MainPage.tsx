@@ -4,37 +4,44 @@ import {
   LinearProgress,
   makeStyles,
   Typography,
-} from "@material-ui/core";
-import Pagination from "@material-ui/lab/Pagination";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { selectCityList, selectCityMap } from "features/city/citySlice";
-import { ListParams, Student } from "models";
-import { ChangeEvent, useEffect } from "react";
-import { Link, useHistory, useRouteMatch } from "react-router-dom";
-import StudentFilters from "../components/StudentFilters";
-import StudentTable from "../components/StudentTable";
+} from '@material-ui/core';
+import Pagination from '@material-ui/lab/Pagination';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { selectCityList, selectCityMap } from 'features/city/citySlice';
+import { ListParams, Student } from 'models';
+import { ChangeEvent, useEffect } from 'react';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
+import StudentFilters from '../components/StudentFilters';
+import StudentTable from '../components/StudentTable';
 import {
   fetchStudentList,
   setFilter,
   setFilterDebounce,
-} from "../studentSlice";
+} from '../studentSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: theme.spacing(1),
+    position: 'relative',
   },
 
   titleBox: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
 
     marginBottom: theme.spacing(4),
   },
 
   pagination: {
-    display: "flex",
-    justifyContent: "center",
+    display: 'flex',
+    justifyContent: 'center',
+  },
+
+  loading: {
+    position: 'absolute',
+    width: '100%',
+    top: theme.spacing(-1),
   },
 }));
 
@@ -82,6 +89,8 @@ function MainPage() {
 
   return (
     <Box className={classes.root}>
+      {loading && <LinearProgress className={classes.loading} />}
+
       <Box className={classes.titleBox}>
         <Typography component='h1' variant='h5'>
           Students
@@ -103,8 +112,6 @@ function MainPage() {
         onSearchChange={handleSearchChange}
         onChange={handleCityChange}
       />
-
-      {loading && <LinearProgress />}
 
       {!loading && (
         <StudentTable

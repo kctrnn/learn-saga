@@ -1,14 +1,14 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ListParams, ListResponse, PaginationResponse, Student } from "models";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ListParams, ListResponse, PaginationResponse, Student } from 'models';
 
-export interface studentState {
+export interface StudentState {
   list: Student[];
   pagination: PaginationResponse;
   filter: Partial<ListParams>;
   loading: boolean;
 }
 
-const initialState: studentState = {
+const initialState: StudentState = {
   list: [],
   pagination: {
     _limit: 15,
@@ -25,7 +25,7 @@ const initialState: studentState = {
 };
 
 const studentSlice = createSlice({
-  name: "student",
+  name: 'student',
   initialState,
   reducers: {
     // dispatch(fetchStudentList(filter))

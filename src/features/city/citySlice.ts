@@ -1,19 +1,19 @@
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "app/store";
-import { City, ListResponse } from "models";
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from 'app/store';
+import { City, ListResponse } from 'models';
 
-export interface cityState {
+export interface CityState {
   list: City[];
   loading: boolean;
 }
 
-const initialState: cityState = {
+const initialState: CityState = {
   list: [],
   loading: false,
 };
 
 const citySlice = createSlice({
-  name: "city",
+  name: 'city',
   initialState,
   reducers: {
     fetchCityList(state) {
