@@ -15,9 +15,10 @@ import StatisticItem from './components/StatisticItem';
 import StudentRankingList from './components/StudentRankingList';
 import {
   fetchDashboardData,
-  selectDashboardHighestStudentList,
-  selectDashboardLowestStudentList,
   selectDashboardStatistics,
+  selectHighestStudentList,
+  selectLowestStudentList,
+  selectRankingByCityList,
 } from './dashboardSlice';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,8 +40,9 @@ function Dashboard() {
 
   const loading = useAppSelector((state) => state.dashboard.loading);
   const statistics = useAppSelector(selectDashboardStatistics);
-  const highestStudentList = useAppSelector(selectDashboardHighestStudentList);
-  const lowestStudentList = useAppSelector(selectDashboardLowestStudentList);
+  const highestStudentList = useAppSelector(selectHighestStudentList);
+  const lowestStudentList = useAppSelector(selectLowestStudentList);
+  const rankingByCityList = useAppSelector(selectRankingByCityList);
 
   useEffect(() => {
     dispatch(fetchDashboardData());
@@ -87,7 +89,7 @@ function Dashboard() {
 
       {/* All students rankings */}
       <Box mt={5}>
-        <Typography variant='h5'>All Students</Typography>
+        <Typography variant='h5'># All Students</Typography>
 
         <Box mt={2}>
           <Grid container spacing={3}>
@@ -104,6 +106,26 @@ function Dashboard() {
                 title='Student with lowest mark'
               />
             </Grid>
+          </Grid>
+        </Box>
+      </Box>
+
+      {/* Ranking by city */}
+      <Box mt={5}>
+        <Typography variant='h5'># Ranking by city</Typography>
+
+        <Box mt={2}>
+          <Grid container spacing={3}>
+            {rankingByCityList
+              .filter((x) => x.cityId !== 'pt')
+              .map((x) => (
+                <Grid key={x.cityId} item xs={12} md={6} lg={3}>
+                  <StudentRankingList
+                    studentList={x.rankingList}
+                    title={x.cityName}
+                  />
+                </Grid>
+              ))}
           </Grid>
         </Box>
       </Box>
