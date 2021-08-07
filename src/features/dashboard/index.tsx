@@ -1,4 +1,10 @@
-import { Box, Grid, LinearProgress, makeStyles } from '@material-ui/core';
+import {
+  Box,
+  Grid,
+  LinearProgress,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
 import { PeopleAlt } from '@material-ui/icons';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import DonutSmallIcon from '@material-ui/icons/DonutSmall';
@@ -6,8 +12,11 @@ import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { useEffect } from 'react';
 import StatisticItem from './components/StatisticItem';
+import StudentRankingList from './components/StudentRankingList';
 import {
   fetchDashboardData,
+  selectDashboardHighestStudentList,
+  selectDashboardLowestStudentList,
   selectDashboardStatistics,
 } from './dashboardSlice';
 
@@ -28,8 +37,10 @@ function Dashboard() {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
-  const statistics = useAppSelector(selectDashboardStatistics);
   const loading = useAppSelector((state) => state.dashboard.loading);
+  const statistics = useAppSelector(selectDashboardStatistics);
+  const highestStudentList = useAppSelector(selectDashboardHighestStudentList);
+  const lowestStudentList = useAppSelector(selectDashboardLowestStudentList);
 
   useEffect(() => {
     dispatch(fetchDashboardData());
@@ -73,6 +84,29 @@ function Dashboard() {
           />
         </Grid>
       </Grid>
+
+      {/* All students rankings */}
+      <Box mt={5}>
+        <Typography variant='h5'>All Students</Typography>
+
+        <Box mt={2}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6} lg={3}>
+              <StudentRankingList
+                studentList={highestStudentList}
+                title='Student with highest mark'
+              />
+            </Grid>
+
+            <Grid item xs={12} md={6} lg={3}>
+              <StudentRankingList
+                studentList={lowestStudentList}
+                title='Student with lowest mark'
+              />
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
     </Box>
   );
 }

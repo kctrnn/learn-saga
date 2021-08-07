@@ -73,6 +73,10 @@ export const {
 // Selectors
 export const selectDashboardStatistics = (state: RootState) =>
   state.dashboard.statistics;
+export const selectDashboardHighestStudentList = (state: RootState) =>
+  state.dashboard.highestStudentList;
+export const selectDashboardLowestStudentList = (state: RootState) =>
+  state.dashboard.lowestStudentList;
 
 // Reducer
 const dashboardReducer = dashboardSlice.reducer;
