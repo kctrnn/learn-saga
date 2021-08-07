@@ -6,11 +6,13 @@ import {
   Typography,
 } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
+import studentApi from 'api/studentApi';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { selectCityList, selectCityMap } from 'features/city/citySlice';
 import { ListParams, Student } from 'models';
 import { ChangeEvent, useEffect } from 'react';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import StudentFilters from '../components/StudentFilters';
 import StudentTable from '../components/StudentTable';
 import {
@@ -87,6 +89,19 @@ function MainPage() {
     history.push(`${match.url}/${student.id}`);
   };
 
+  const handleRemoveClick = async (student: Student) => {
+    try {
+      await studentApi.remove(student.id || '');
+
+      toast.success('💔 Remove student successfully!');
+
+      // Trigger to re-fetch student list with current filter
+      dispatch(setFilter({ ...filter }));
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+
   return (
     <Box className={classes.root}>
       {loading && <LinearProgress className={classes.loading} />}
@@ -118,6 +133,7 @@ function MainPage() {
           studentList={studentList}
           cityMap={cityMap}
           onEdit={handleEditClick}
+          onRemove={handleRemoveClick}
         />
       )}
 
