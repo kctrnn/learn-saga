@@ -1,9 +1,9 @@
-import cityApi from "api/cityApi";
-import { NotFound, PrivateRoute } from "components/Common";
-import { AdminLayout } from "components/Layout";
-import LoginPage from "features/auth/pages/LoginPage";
-import React, { useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import cityApi from 'api/cityApi';
+import { NotFound, PrivateRoute } from 'components/Common';
+import { AdminLayout } from 'components/Layout';
+import LoginPage from 'features/auth/pages/LoginPage';
+import React, { useEffect } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 function App() {
   useEffect(() => {
@@ -20,8 +20,10 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <>
       <Switch>
+        <Redirect exact from='/' to='/login' />
+
         <Route path='/login'>
           <LoginPage />
         </Route>
@@ -34,7 +36,7 @@ function App() {
           <NotFound />
         </Route>
       </Switch>
-    </div>
+    </>
   );
 }
 
