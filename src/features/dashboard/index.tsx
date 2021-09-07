@@ -72,7 +72,7 @@ function Dashboard() {
 
         <Grid item xs={12} md={6} lg={3}>
           <StatisticItem
-            icon={<DonutLargeIcon fontSize='large' color='primary' />}
+            icon={<DonutSmallIcon fontSize='large' color='primary' />}
             label='mark >= 8'
             value={statistics.highMarkCount}
           />
@@ -80,7 +80,7 @@ function Dashboard() {
 
         <Grid item xs={12} md={6} lg={3}>
           <StatisticItem
-            icon={<DonutSmallIcon fontSize='large' color='primary' />}
+            icon={<DonutLargeIcon fontSize='large' color='primary' />}
             label='mark >= 5'
             value={statistics.lowMarkCount}
           />
