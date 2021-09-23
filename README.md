@@ -1,4 +1,4 @@
-# Student Management
+# Student Management 👀
 
 ## Overview
 
@@ -47,7 +47,7 @@ export interface LoginPayload {
 }
 
 const authSlice = createSlice({
-  name: "auth",
+  name: 'auth',
   initialState,
   reducers: {
     login(state, action: PayloadAction<LoginPayload>) {
@@ -102,7 +102,7 @@ const initialState: studentState = {
 };
 
 const studentSlice = createSlice({
-  name: "student",
+  name: 'student',
   initialState,
   reducers: {
     // dispatch(fetchStudentList(filter))
